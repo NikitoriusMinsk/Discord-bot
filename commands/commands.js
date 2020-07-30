@@ -2,7 +2,8 @@ module.exports = {
     name: 'commands',
     description: 'list of commands',
     execute(message, args){
-        message.author.send(`!play <YT link> - places a song into the queue \n 
+        message.author.send(`List of commands: \n
+        !play <YT link> - places a song into the queue \n 
         !skip - skips the current song \n 
         !stop - stops the music \n 
         !queue - posts current music queue \n

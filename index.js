@@ -4,6 +4,7 @@ const Discord = require('discord.js');;
 const fs = require('fs');
 const commands = require('./commands/commands');
 const bot = new Discord.Client();
+const token = 'NzMzNDExNzU1NjM1NTA3MjEx.XxC7Aw.4IxJfXyRbE57qDJvZAd1JLU-ikc';
 const prefix = '!';
 
 bot.commands = new Discord.Collection();
@@ -77,5 +78,5 @@ bot.on('message', message => {
     }
 });
 
-//bot.login(token);
-bot.login(process.env.BOT_TOKEN);
+bot.login(token);
+//bot.login(process.env.BOT_TOKEN);
