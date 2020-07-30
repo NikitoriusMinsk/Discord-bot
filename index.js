@@ -2,7 +2,7 @@
 // ctrl + c - завершение 
 const Discord = require('discord.js');;
 const fs = require('fs');
-const commands = require('./Commands/commands');
+const commands = require('./commands/commands');
 const bot = new Discord.Client();
 const token = 'NzMzNDExNzU1NjM1NTA3MjEx.XxC7Aw.4IxJfXyRbE57qDJvZAd1JLU-ikc';
 const prefix = '!';
@@ -70,11 +70,11 @@ bot.on('message', message => {
             bot.commands.get('queue').execute(message,args,servers);
         break;
 
-        case 'peko':{
+        case 'peko':
             args[1]='https://www.youtube.com/watch?v=dzj3OZMtnJ8';
             message.channel.send('IQ dump engaged. God save us all.');
             bot.commands.get('play').execute(message,args,servers);
-        }
+        break;
     }
 });
 
