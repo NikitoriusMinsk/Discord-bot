@@ -9,7 +9,8 @@ module.exports = {
         !queue - posts current music queue \n
         !image <keyword> - random Google Image \n 
         !roulette <create/join/start/list> - server kick roulette \n 
-        !anime - random anime \n !roll <value> - random number between 1 and your value \n
+        !anime - random anime \n 
+        !roll <value> - random number between 1 and your value \n
         !peko - just don't. \n 
         !ping <> - pong!`);
     }
