@@ -26,7 +26,12 @@ module.exports = {
         }
         
         if(!args[1]){
-            message.channel.send('You must provide a link!');
+            message.channel.send('You must provide a YT link!');
+            return;
+        }
+
+        if (!matchYoutubeUrl(args[1])){
+            message.channel.send('Link must be a YT video link');
             return;
         }
 
@@ -53,3 +58,11 @@ module.exports = {
     }
 }
 
+function matchYoutubeUrl(url) {
+    var p = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+    var matches = url.match(p);
+    if(matches){
+        return true;
+    }
+    return false;
+}
