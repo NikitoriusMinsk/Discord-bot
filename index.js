@@ -77,5 +77,16 @@ bot.on('message', message => {
     }
 });
 
-//bot.login(token);
-bot.login(process.env.BOT_TOKEN);
+if (process.env.BOT_TOKEN){
+    bot.login(process.env.BOT_TOKEN);
+}
+else
+{
+    fs.readFile('./token.txt','utf-8', function(err, data){
+        if (err)
+        {
+            return console.log(err);
+        }
+        bot.login(data);
+    })
+}
