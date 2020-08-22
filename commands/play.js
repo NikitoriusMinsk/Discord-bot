@@ -8,18 +8,22 @@ module.exports = {
             var server = servers[message.guild.id];
         
             server.dispatcher = connection.play(ytdl(server.queue[0], {filter:"audioonly"}));
-        
+
             server.dispatcher.on("finish", function(){
                 if(server.queue[1]){
                     server.queue.shift();
+                    message.channel.send(`Now playing: ${server.queue[0]}`);
                     play(connection,message);
                     return;
                 }
                 if(server.queue[0]){                   
+                    message.channel.send(`Now playing: ${server.queue[0]}`);
                     play(connection,message);
+                    server.queue.shift();
                     return;
                 }
-                else{
+                if(server.queue.length==0){
+                    message.channel.send('Queue ended, disconnecting.')
                     connection.disconnect();
                 }
             })
@@ -30,7 +34,7 @@ module.exports = {
             return;
         }
 
-        if (!matchYoutubeUrl(args[1])){
+        if (!ytdl.validateURL(args[1])){
             message.channel.send('Link must be a YT video link');
             return;
         }
@@ -53,16 +57,8 @@ module.exports = {
             if(!message.member.voice.connection) message.member.voice.channel.join().then(function(connection){
                 server.queue.push(args[1]);
                 play(connection, message);
+                message.channel.send(`Now playing: ${server.queue[0]}`);
             })
         }
     }
-}
-
-function matchYoutubeUrl(url) {
-    var p = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
-    var matches = url.match(p);
-    if(matches){
-        return true;
-    }
-    return false;
 }
