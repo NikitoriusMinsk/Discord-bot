@@ -16,6 +16,7 @@ for(const file of commandFiles){
 
 var rouletteList = {starter:'', users:[]};
 var servers = {};
+var usedCommandRecently = new Set();
 
 bot.on('ready', () => {
     console.log('Bot is online!');
@@ -27,6 +28,17 @@ bot.on('message', message => {
     
     let args = message.content.substring(prefix.length).split(" ");
     
+    if(!usedCommandRecently.has(message.author)){
+        usedCommandRecently.add(message.author);
+        setTimeout(() => {
+            usedCommandRecently.delete(message.author);
+        }, 5000);
+    }
+    else{
+        message.reply('Wait 5 seconds before using commands.');
+        return;
+    }
+
     switch(args[0]){
         
         case 'ping' :
