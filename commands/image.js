@@ -9,14 +9,14 @@ module.exports = {
             message.channel.send("You must provide a keyword");
             return;
         }
-        image(message, args[1]);
+        image(message, args);
     }
     
 }
 
-function image(message, keyword){
+function image(message, keywords){
     var options = {
-        url: "http://results.dogpile.com/serp?qc=images&q="+keyword,
+        url: "http://results.dogpile.com/serp?qc=images&q=",
         method: "GET",
         headers: {
             "Accept": "text/html",
@@ -24,6 +24,10 @@ function image(message, keyword){
             "Cookie": "ws_prefs=vr=1&af=None"
         }
     };
+
+    keywords.forEach(element => {
+        options.url += element+' ';
+    });
  
     request(options, function(error, response, responseBody) {
         if (error) {
