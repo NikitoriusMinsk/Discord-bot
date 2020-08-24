@@ -5,6 +5,8 @@ const fs = require('fs');
 const commands = require('./commands/commands');
 const bot = new Discord.Client();
 const prefix = '!';
+const cooldown = 5000;
+
 
 bot.commands = new Discord.Collection();
 
@@ -17,6 +19,7 @@ for(const file of commandFiles){
 var rouletteList = {starter:'', users:[]};
 var servers = {};
 var usedCommandRecently = new Set();
+var playingState = {state : false};
 
 bot.on('ready', () => {
     console.log('Bot is online!');
@@ -25,14 +28,13 @@ bot.on('ready', () => {
 bot.on('message', message => {
     if (!message.content.startsWith(prefix)) return;
     
-    
     let args = message.content.substring(prefix.length).split(" ");
     
     if(!usedCommandRecently.has(message.author)){
         usedCommandRecently.add(message.author);
         setTimeout(() => {
             usedCommandRecently.delete(message.author);
-        }, 5000);
+        }, cooldown);
     }
     else{
         message.reply('Wait 5 seconds before using commands.');
@@ -66,7 +68,7 @@ bot.on('message', message => {
         break;
     
         case 'play':
-            bot.commands.get('play').execute(message,args,servers);
+            bot.commands.get('play').execute(message,args,servers,playingState);
         break;
 
         case 'skip':

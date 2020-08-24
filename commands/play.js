@@ -3,28 +3,25 @@ const ytdl = require('ytdl-core');
 module.exports = {
     name: 'play',
     description: 'adds a song to music queue',
-    execute(message, args, servers){
+    execute(message, args, servers, playing){
         function play(connection, message){
             var server = servers[message.guild.id];
-        
-            server.dispatcher = connection.play(ytdl(server.queue[0], {filter:"audioonly"}));
+            
+            message.channel.send(`Now playing: ${server.queue[0]}`);  
+            server.dispatcher = connection.play(ytdl(server.queue[0], {filter:"audioonly"}));    
+            playing.state = true;
+            server.queue.shift();
 
             server.dispatcher.on("finish", function(){
                 if(server.queue.length==0){
                     message.channel.send('Queue ended, disconnecting.')
                     connection.disconnect();
+                    playing.state = false;
                     return;
                 }
-                if(server.queue[1]){
-                    server.queue.shift();
-                    message.channel.send(`Now playing: ${server.queue[0]}`);
+                else{    
+                                                     
                     play(connection,message);
-                    return;
-                }
-                if(server.queue[0]){                   
-                    message.channel.send(`Now playing: ${server.queue[0]}`);
-                    play(connection,message);
-                    server.queue.shift();
                     return;
                 }
             })
@@ -51,15 +48,15 @@ module.exports = {
             
         var server = servers[message.guild.id];
 
-        if(server.queue.length!=0){
+        if(playing.state){
             server.queue.push(args[1]);
             return;
         }
         else{
             if(!message.member.voice.connection) message.member.voice.channel.join().then(function(connection){
                 server.queue.push(args[1]);
+                // message.channel.send(`Now playing: ${server.queue[0]}`);
                 play(connection, message);
-                message.channel.send(`Now playing: ${server.queue[0]}`);
             })
         }
     }
