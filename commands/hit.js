@@ -2,7 +2,7 @@ module.exports = {
     name: 'hit',
     description: 'hits someone',
     execute(message, args, client){
-        message.channel.send(`${message.author} ударяет ${getUserFromMention(args[1],client)}`);
+        message.channel.send(`${message.author} ударяет ${getUserFromMention(args[1],client)} огромной алебардой`);
     }
 }
 
