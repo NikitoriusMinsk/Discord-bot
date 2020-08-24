@@ -10,6 +10,11 @@ module.exports = {
             server.dispatcher = connection.play(ytdl(server.queue[0], {filter:"audioonly"}));
 
             server.dispatcher.on("finish", function(){
+                if(server.queue.length==0){
+                    message.channel.send('Queue ended, disconnecting.')
+                    connection.disconnect();
+                    return;
+                }
                 if(server.queue[1]){
                     server.queue.shift();
                     message.channel.send(`Now playing: ${server.queue[0]}`);
@@ -21,10 +26,6 @@ module.exports = {
                     play(connection,message);
                     server.queue.shift();
                     return;
-                }
-                if(server.queue.length==0){
-                    message.channel.send('Queue ended, disconnecting.')
-                    connection.disconnect();
                 }
             })
         }
@@ -52,6 +53,7 @@ module.exports = {
 
         if(server.queue.length!=0){
             server.queue.push(args[1]);
+            return;
         }
         else{
             if(!message.member.voice.connection) message.member.voice.channel.join().then(function(connection){
