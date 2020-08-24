@@ -74,6 +74,10 @@ bot.on('message', message => {
             message.channel.send('IQ dump engaged. God save us all.');
             bot.commands.get('play').execute(message,args,servers);
         break;
+
+        case 'hit':
+            bot.commands.get('hit').execute(message,args,bot);
+        break;
     }
 });
 
