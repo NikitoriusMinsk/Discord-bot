@@ -4,11 +4,13 @@ module.exports = {
     name: 'play',
     description: 'adds a song to music queue',
     execute(message, args, servers, playing){
-        function play(connection, message){
+        async function play(connection, message){
             var server = servers[message.guild.id];
-            
+
             message.channel.send(`Now playing: ${server.queue[0]}`);  
             server.dispatcher = connection.play(ytdl(server.queue[0], {filter:"audioonly"}));    
+            let info = await ytdl.getInfo(server.queue[0]);
+            playing.title = info.videoDetails.title;
             playing.state = true;
             server.queue.shift();
 
@@ -19,8 +21,7 @@ module.exports = {
                     playing.state = false;
                     return;
                 }
-                else{    
-                                                     
+                else{                                                         
                     play(connection,message);
                     return;
                 }
@@ -55,7 +56,6 @@ module.exports = {
         else{
             if(!message.member.voice.connection) message.member.voice.channel.join().then(function(connection){
                 server.queue.push(args[1]);
-                // message.channel.send(`Now playing: ${server.queue[0]}`);
                 play(connection, message);
             })
         }

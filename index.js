@@ -19,7 +19,8 @@ for(const file of commandFiles){
 var rouletteList = {starter:'', users:[]};
 var servers = {};
 var usedCommandRecently = new Set();
-var playingState = {state : false};
+var playingState = {state : false,
+                    title: ' '};
 
 bot.on('ready', () => {
     console.log('Bot is online!');
@@ -80,7 +81,7 @@ bot.on('message', message => {
         break;
     
         case 'queue':
-            bot.commands.get('queue').execute(message,args,servers);
+            bot.commands.get('queue').execute(message,args,servers,playingState);
         break;
 
         case 'peko':
