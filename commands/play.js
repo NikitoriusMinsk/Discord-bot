@@ -9,13 +9,27 @@ module.exports = {
         async function play(connection, message){
             var server = servers[message.guild.id];
 
-            message.channel.send(`Now playing: ${server.queue[0]}`);  
-            server.dispatcher = connection.play(ytdl(server.queue[0], {filter:"audioonly"}));    
-            let info = await ytdl.getInfo(server.queue[0]);
-            playing.title = info.videoDetails.title;
-            playing.state = true;
-            server.queue.shift();
-
+            try {
+                message.channel.send(`Now playing: ${server.queue[0]}`);  
+                server.dispatcher = connection.play(ytdl(server.queue[0], {filter:"audioonly"}));    
+                let info = await ytdl.getInfo(server.queue[0]);
+                playing.title = info.videoDetails.title;
+                playing.state = true;
+                server.queue.shift();
+                
+            } catch (error) {
+                message.channel.send('An error occured while playing the video.');
+                server.queue.shift();
+                if(server.queue.length != 0){
+                    play(connection,message);
+                }
+                else{
+                    connection.disconnect();
+                    playing.state = false;
+                }
+                return;
+            }
+            
             server.dispatcher.on("finish", function(){
                 if(server.queue.length==0){
                     message.channel.send('Queue ended, disconnecting.')

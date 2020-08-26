@@ -9,6 +9,7 @@ module.exports = {
         var server = servers[message.guild.id];
         if (server) {   
             if(server.queue.length!=0){
+                message.channel.send('This might take a second. Please wait.')
                 sendQueue(server,message,playing)
             }
             else{
@@ -27,10 +28,12 @@ async function sendQueue(urls, msg, playing){
     embed.addField('Queue:', ' ');
     let symbCount = 0;
     let embedField = 1;
+    
     for (let i = 0; i < queue.length; i++) {
         try {
             let info = await ytdl.getInfo(queue[i]);
             symbCount += info.videoDetails.title.length;
+
             if (symbCount>900) {
                 embedField++;
                 embed.addField(`Queue ${embedField}`, ' ');
@@ -40,8 +43,7 @@ async function sendQueue(urls, msg, playing){
         } catch (error) {
             queue.splice(i,1);
             continue;
-        }
-        
+        }        
     }
 
     msg.channel.send(embed);
