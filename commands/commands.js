@@ -4,6 +4,7 @@ module.exports = {
     name: 'commands',
     description: 'list of commands',
     execute(message, args){
+        console.log('!commands called');
         let embed = new Discord.MessageEmbed().addField('List of available commands :',`!play <YT link> - places a song into the queue \n 
         !skip - skips the current song \n 
         !stop - stops the music \n 

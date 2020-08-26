@@ -5,6 +5,7 @@ module.exports = {
     name: 'image',
     description: 'sends a random Google Image depending on arguments',
     execute(message, args){
+        console.log('!image called');
         if(!args[1]){
             message.channel.send("You must provide a keyword");
             return;

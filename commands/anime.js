@@ -4,6 +4,7 @@ module.exports = {
     name: 'anime',
     description: 'sends a random anime link',
     execute(message, args){
+        console.log('!anime called');
         SendRandomAnimeLink(message);
     }
 }

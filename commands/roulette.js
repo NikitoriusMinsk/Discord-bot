@@ -4,6 +4,7 @@ module.exports = {
     name: 'roulette',
     description: 'server kick roulette',
     execute(message, args, rouletteList){
+        console.log('!roulette called');
         if(!args[1]){
             message.channel.send('Usage of command !roulette: !roulette <create/join/start/list>');
             return;
