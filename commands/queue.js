@@ -32,19 +32,20 @@ async function sendQueue(urls, msg, playing){
     for (let i = 0; i < queue.length; i++) {
         try {
             let info = await ytdl.getInfo(queue[i]);
-            symbCount += info.videoDetails.title.length;
+            message.channel.send(`${i}. ${info.title}`);
+            // symbCount += info.videoDetails.title.length;
 
-            if (symbCount>900) {
-                embedField++;
-                embed.addField(`Queue ${embedField}`, ' ');
-                symbCount = 0;
-            }
-            embed.fields[embedField].value += [`${i+1}. `, info.videoDetails.title.toString(),'\n'].join("");
+            // if (symbCount>900) {
+            //     embedField++;
+            //     embed.addField(`Queue ${embedField}`, ' ');
+            //     symbCount = 0;
+            // }
+            // embed.fields[embedField].value += [`${i+1}. `, info.videoDetails.title.toString(),'\n'].join("");
         } catch (error) {
             queue.splice(i,1);
             continue;
         }        
     }
 
-    msg.channel.send(embed);
+    //msg.channel.send(embed);
 }
