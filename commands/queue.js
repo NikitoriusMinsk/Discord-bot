@@ -28,24 +28,43 @@ async function sendQueue(urls, msg, playing){
     embed.addField('Queue:', ' ');
     let symbCount = 0;
     let embedField = 1;
-    
-    for (let i = 0; i < queue.length; i++) {
-        try {
-            let info = await ytdl.getInfo(queue[i]);
-            message.channel.send(`${i}. ${info.title}`);
-            // symbCount += info.videoDetails.title.length;
+    if(queue.length>30){
+        for (let i = 0; i < 30; i++) {
+            try {
+                let info = await ytdl.getInfo(queue[i]);
+                symbCount += info.videoDetails.title.length;
 
-            // if (symbCount>900) {
-            //     embedField++;
-            //     embed.addField(`Queue ${embedField}`, ' ');
-            //     symbCount = 0;
-            // }
-            // embed.fields[embedField].value += [`${i+1}. `, info.videoDetails.title.toString(),'\n'].join("");
-        } catch (error) {
-            queue.splice(i,1);
-            continue;
-        }        
+                if (symbCount>900) {
+                    embedField++;
+                    embed.addField(`Queue ${embedField}`, ' ');
+                    symbCount = 0;
+                }
+                embed.fields[embedField].value += [`${i+1}. `, info.videoDetails.title.toString(),'\n'].join("");
+            } catch (error) {
+                queue.splice(i,1);
+                continue;
+            }        
+        }
+        embed.fields[embedField].value += `and ${queue.length-30} more.`
     }
+    else{
+        for (let i = 0; i < queue.length; i++) {
+            try {
+                let info = await ytdl.getInfo(queue[i]);
+                symbCount += info.videoDetails.title.length;
 
-    //msg.channel.send(embed);
+                if (symbCount>900) {
+                    embedField++;
+                    embed.addField(`Queue ${embedField}`, ' ');
+                    symbCount = 0;
+                }
+                embed.fields[embedField].value += [`${i+1}. `, info.videoDetails.title.toString(),'\n'].join("");
+            } catch (error) {
+                queue.splice(i,1);
+                continue;
+            }        
+        }
+    }
+        
+    msg.channel.send(embed);
 }

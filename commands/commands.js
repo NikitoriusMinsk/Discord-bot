@@ -8,7 +8,7 @@ module.exports = {
         let embed = new Discord.MessageEmbed().addField('List of available commands :',`!play <YT video/playlist link> - places a song/playlist into the queue \n 
         !skip - skips the current song \n 
         !stop - stops the music \n 
-        !queue - posts current music queue \n
+        !queue - posts current music queue (first 30 tracks in queue) \n
         !image <keyword> - random Google Image \n 
         !roulette <create/join/start/list> - server kick roulette \n 
         !anime - random anime \n 
