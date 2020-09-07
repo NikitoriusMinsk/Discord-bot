@@ -97,7 +97,9 @@ bot.on('message', message => {
 });
 
 bot.on('guildMemberAdd',(member)=>{
-    member.roles.add(member.guild.roles.find(role => role.name == 'Barbarian'));
+//Barbarian - 747439488002687087
+member.guild.roles.fetch('747439488002687087')
+            .then(role => member.role.add(role));
 })
 
 if (process.env.BOT_TOKEN){
