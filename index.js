@@ -96,6 +96,10 @@ bot.on('message', message => {
     }
 });
 
+bot.on('guildMemberAdd',(member)=>{
+    member.roles.add(member.guild.roles.find(role => role.name == 'Barbarian'));
+})
+
 if (process.env.BOT_TOKEN){
     bot.login(process.env.BOT_TOKEN);
 }
