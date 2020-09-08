@@ -99,7 +99,7 @@ bot.on('message', message => {
 bot.on('guildMemberAdd',(member)=>{
 //Barbarian - 747439488002687087
 member.guild.roles.fetch('747439488002687087')
-            .then(role => member.role.add(role));
+            .then(role => member.roles.add(role));
 })
 
 if (process.env.BOT_TOKEN){
