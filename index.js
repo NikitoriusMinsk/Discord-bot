@@ -7,7 +7,6 @@ const bot = new Discord.Client();
 const prefix = '!';
 const cooldown = 5000;
 
-
 bot.commands = new Discord.Collection();
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
@@ -20,7 +19,8 @@ var rouletteList = {starter:'', users:[]};
 var servers = {};
 var usedCommandRecently = new Set();
 var playingState = {state : false,
-                    title: ' '};
+                    title: ' ',
+                    loop :false};
 
 bot.on('ready', () => {
     console.log('Bot is online!');
@@ -92,6 +92,10 @@ bot.on('message', message => {
 
         case 'hit':
             bot.commands.get('hit').execute(message,args,bot);
+        break;
+
+        case 'loop':
+            bot.commands.get('loop').execute(message,args,playingState);
         break;
     }
 });

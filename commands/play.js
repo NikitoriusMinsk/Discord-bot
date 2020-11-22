@@ -4,7 +4,7 @@ const ytplaylist = require('youtube-playlist');
 module.exports = {
     name: 'play',
     description: 'adds a song to music queue',
-    async execute(message, args, servers, playing){
+    async execute(message, args, servers, playingState){
         console.log('!play called');
         async function play(connection, message){
             var server = servers[message.guild.id];
@@ -13,19 +13,20 @@ module.exports = {
                 message.channel.send(`Now playing: ${server.queue[0]}`);  
                 server.dispatcher = connection.play(ytdl(server.queue[0], {filter:"audioonly"}));    
                 let info = await ytdl.getInfo(server.queue[0]);
-                playing.title = info.videoDetails.title;
-                playing.state = true;
+                playingState.title = info.videoDetails.title;
+                playingState.state = true;
                 server.queue.shift();
                 
             } catch (error) {
                 message.channel.send('An error occured while playing the video.');
                 server.queue.shift();
+                console.log(error);
                 if(server.queue.length != 0){
                     play(connection,message);
                 }
                 else{
                     connection.disconnect();
-                    playing.state = false;
+                    playingState.state = false;
                 }
                 return;
             }
@@ -34,7 +35,7 @@ module.exports = {
                 if(server.queue.length==0){
                     message.channel.send('Queue ended, disconnecting.')
                     connection.disconnect();
-                    playing.state = false;
+                    playingState.state = false;
                     return;
                 }
                 else{                                                         
@@ -59,7 +60,7 @@ module.exports = {
                     
                 var server = servers[message.guild.id];
         
-                if(playing.state){
+                if(playingState.state){
                     //add to queue if playing
                     for (let i = 0; i < urls.length; i++) {
                         const element = urls[i];
@@ -105,7 +106,7 @@ module.exports = {
             
         var server = servers[message.guild.id];
         
-        if(playing.state){
+        if(playingState.state){
             server.queue.push(args[1]);
             return;
         }
