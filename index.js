@@ -5,7 +5,7 @@ const fs = require('fs');
 const commands = require('./commands/commands');
 const bot = new Discord.Client();
 const prefix = '!';
-const cooldown = 5000;
+const cooldown = 3000;
 
 bot.commands = new Discord.Collection();
 
@@ -38,7 +38,7 @@ bot.on('message', message => {
         }, cooldown);
     }
     else{
-        message.reply('Wait 5 seconds before using commands.');
+        message.reply(' соблюдай промежуток в 3 сек между командами, а?');
         return;
     }
 
@@ -94,8 +94,16 @@ bot.on('message', message => {
             bot.commands.get('hit').execute(message,args,bot);
         break;
 
-        case 'loop':
-            bot.commands.get('loop').execute(message,args,playingState);
+        case 'тюленя':
+            bot.commands.get('seal').execute(message, args);    
+        break;
+
+        case 'addseal':
+            bot.commands.get('addSeal').execute(message, args);    
+        break;
+
+        case 'stats':
+            bot.commands.get('sealStats').execute(message, args);
         break;
     }
 });

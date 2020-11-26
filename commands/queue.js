@@ -9,23 +9,23 @@ module.exports = {
         var server = servers[message.guild.id];
         if (server) {   
             if(server.queue.length!=0){
-                message.channel.send('This might take a second. Please wait.')
+                message.channel.send('Ща, сек.')
                 sendQueue(server,message,playing)
             }
             else{
-                message.channel.send('Queue is empty');
+                message.channel.send('В очереди ничего нет.');
             }
         }
         else{
-            message.channel.send('Queue is empty');
+            message.channel.send('В очереди ничего нет.');
         }
     }
 }
 
 async function sendQueue(urls, msg, playing){
     let queue = urls.queue;
-    let embed = new Discord.MessageEmbed().addField('Playing:', playing.title);
-    embed.addField('Queue:', ' ');
+    let embed = new Discord.MessageEmbed().addField('Играет сейчас:', playing.title);
+    embed.addField('Очередь:', ' ');
     let symbCount = 0;
     let embedField = 1;
     if(queue.length>30){
@@ -36,7 +36,7 @@ async function sendQueue(urls, msg, playing){
 
                 if (symbCount>900) {
                     embedField++;
-                    embed.addField(`Queue ${embedField}`, ' ');
+                    embed.addField(`Очередь ${embedField}`, ' ');
                     symbCount = 0;
                 }
                 embed.fields[embedField].value += [`${i+1}. `, info.videoDetails.title.toString(),'\n'].join("");
@@ -45,7 +45,7 @@ async function sendQueue(urls, msg, playing){
                 continue;
             }        
         }
-        embed.fields[embedField].value += `and ${queue.length-30} more.`
+        embed.fields[embedField].value += `и еще ${queue.length-30}.`
     }
     else{
         for (let i = 0; i < queue.length; i++) {
@@ -55,7 +55,7 @@ async function sendQueue(urls, msg, playing){
 
                 if (symbCount>900) {
                     embedField++;
-                    embed.addField(`Queue ${embedField}`, ' ');
+                    embed.addField(`Очередь ${embedField}`, ' ');
                     symbCount = 0;
                 }
                 embed.fields[embedField].value += [`${i+1}. `, info.videoDetails.title.toString(),'\n'].join("");

@@ -7,7 +7,7 @@ module.exports = {
     execute(message, args){
         console.log('!image called');
         if(!args[1]){
-            message.channel.send("You must provide a keyword");
+            message.reply(" укажи ключевое слово");
             return;
         }
         image(message, args);
@@ -42,7 +42,7 @@ function image(message, keywords){
         var urls = new Array(links.length).fill(0).map((v, i) => links.eq(i).attr("href"));
  
         if (!urls.length) {
-            message.channel.send('No pictures found!');
+            message.channel.send('Картинок не найдено!');
             return;
         }
  

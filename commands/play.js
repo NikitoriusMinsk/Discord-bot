@@ -10,7 +10,7 @@ module.exports = {
             var server = servers[message.guild.id];
 
             try {
-                message.channel.send(`Now playing: ${server.queue[0]}`);  
+                message.channel.send(`Сейчас играет: ${server.queue[0]}`);  
                 server.dispatcher = connection.play(ytdl(server.queue[0], {filter:"audioonly"}));    
                 let info = await ytdl.getInfo(server.queue[0]);
                 playingState.title = info.videoDetails.title;
@@ -18,7 +18,7 @@ module.exports = {
                 server.queue.shift();
                 
             } catch (error) {
-                message.channel.send('An error occured while playing the video.');
+                message.channel.send('Во время проигрывания произошла ошибка.');
                 server.queue.shift();
                 console.log(error);
                 if(server.queue.length != 0){
@@ -33,7 +33,7 @@ module.exports = {
             
             server.dispatcher.on("finish", function(){
                 if(server.queue.length==0){
-                    message.channel.send('Queue ended, disconnecting.')
+                    message.channel.send('Треки кончились, выхожу.')
                     connection.disconnect();
                     playingState.state = false;
                     return;
@@ -50,7 +50,7 @@ module.exports = {
                 let urls = res.data.playlist;
 
                 if(!message.member.voice.channel){
-                    message.reply('You must be in a voice channel!');
+                    message.reply(' нужно находится в голосовом канале!');
                     return;
                 }
                 
@@ -81,7 +81,7 @@ module.exports = {
         }
 
         if(!args[1]){
-            message.reply('You must provide a YT link!');
+            message.reply(' укажи ссылку на Youtube-видео.');
             return;
         }
 
@@ -91,12 +91,12 @@ module.exports = {
         }
 
         if (!ytdl.validateURL(args[1])){
-            message.reply('Link must be a YT video link');
+            message.reply(' укажи ссылку на Youtube-видео.');
             return;
         }        
 
         if(!message.member.voice.channel){
-            message.reply('You must be in a voice channel!');
+            message.reply(' нужно находится в голосовом канале!');
             return;
         }
 

@@ -4,8 +4,8 @@ module.exports = {
     execute(message, args){
         console.log('!roll called');
         if(!args[1]){
-            message.channel.send('You must provide a value!');
+            message.reply(' введи числовое значение.');
         }
-        message.reply(`your roll: ${Math.floor(Math.random() * args[1])}`);
+        message.reply(` твой ролл: ${Math.floor(Math.random() * args[1])}`);
     }
 }

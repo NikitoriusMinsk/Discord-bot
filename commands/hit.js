@@ -5,22 +5,22 @@ module.exports = {
 		console.log('!hit called');
 		if(args[1]){
 			if(args[1]=='self'){
-				message.channel.send(`${message.author} hits ${message.author} with a giant halberd`);
+				message.channel.send(`${message.author} ударяет ${message.author} огромной алебардой`);
 				return;
 			}
 			else{
 				let user = getUserFromMention(args[1],client);
 				if(user!=undefined){
-					message.channel.send(`${message.author} hits ${user} with a giant halberd`);
+					message.channel.send(`${message.author} ударяет ${user} огромной алебардой`);
 					return;
 				}
 				else{
-					message.channel.send(`${message.author} misses with a giant halberd`);
+					message.channel.send(`${message.author} промахивается огромной алебардой`);
 				}
 			}
 		}
 		else{
-			message.channel.send(`${message.author} misses with a giant halberd`);
+			message.channel.send(`${message.author} промахивается огромной алебардой`);
 		}
     }
 }

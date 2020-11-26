@@ -12,13 +12,12 @@ module.exports = {
                     server.queue.splice(i,1);
                 }
                 server.dispatcher.end();
-                message.channel.send('Queue stopped!');
                 
                 if(message.guild.voice.connection) message.guild.voice.connection.disconnect();
             }
         }
         else{
-            message.channel.send('Queue is empty.')
+            message.channel.send('Очередь пуста.')
         }
     }
 }

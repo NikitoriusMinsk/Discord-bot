@@ -7,11 +7,11 @@ module.exports = {
         console.log('!skip called');
         var server = servers[message.guild.id];
         if (server) {   
-            message.channel.send('Skipping...');
+            message.channel.send('Скипаем...');
             if(server.dispatcher) server.dispatcher.end();
         }
         else{
-            message.reply('Nothing to skip.')
+            message.reply(' скипать нечего.')
         }
     }
 }
