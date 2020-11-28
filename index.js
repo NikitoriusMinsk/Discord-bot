@@ -1,11 +1,21 @@
 //node . - запуск
-// ctrl + c - завершение 
+// ctrl + c - завершение
+require('dotenv').config(); 
 const Discord = require('discord.js');;
 const fs = require('fs');
 const commands = require('./commands/commands');
 const bot = new Discord.Client();
 const prefix = '!';
-const cooldown = 3000;
+const cooldown = 5000;
+const { Client } = require('pg');
+const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl:{
+        rejectUnauthorized: false
+    }
+});
+
+client.connect();
 
 bot.commands = new Discord.Collection();
 
@@ -38,7 +48,7 @@ bot.on('message', message => {
         }, cooldown);
     }
     else{
-        message.reply(' соблюдай промежуток в 3 сек между командами, а?');
+        message.reply(' соблюдай промежуток в 5 сек между командами, а?');
         return;
     }
 
@@ -95,15 +105,15 @@ bot.on('message', message => {
         break;
 
         case 'тюленя':
-            bot.commands.get('seal').execute(message, args);    
+            bot.commands.get('seal').execute(message, args, client);    
         break;
 
         case 'addseal':
-            bot.commands.get('addSeal').execute(message, args);    
+            bot.commands.get('addSeal').execute(message, args, client);    
         break;
 
         case 'stats':
-            bot.commands.get('sealStats').execute(message, args);
+            bot.commands.get('sealStats').execute(message, args, client);
         break;
     }
 });

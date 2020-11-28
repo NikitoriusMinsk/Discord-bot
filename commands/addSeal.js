@@ -1,10 +1,7 @@
-const seals = require("../seals.json");
-const fs = require("fs");
-
 module.exports = {
     name: 'addSeal',
     description: 'add a seal to JSON list',
-    execute(message, args){
+    execute(message, args, client){
         if (!args[1]){
             message.reply(" укажи тюленя!(в винительном падеже) пример: !addseal тюленя-парашутиста");
             return;
@@ -16,14 +13,12 @@ module.exports = {
             sealName += ` ${element}`;
         }
         
-        seals[seals["count"]+1] = sealName;
-        seals["count"] = seals["count"] + 1;
-
-        fs.writeFile("./seals.json", JSON.stringify(seals), (err) => {
+        client.query(`INSERT INTO seals(name) values('${sealName}');`, (err, res) => {
             if(err){
-                console.log(err);
+                console.log(err, res);
+                return;
             }
-        })
+        });
 
         message.reply(` добавил ${sealName} в список`);
 

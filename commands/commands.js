@@ -5,16 +5,19 @@ module.exports = {
     description: 'list of commands',
     execute(message, args){
         console.log('!commands called');
-        let embed = new Discord.MessageEmbed().addField('List of available commands :',`!play <YT video/playlist link> - places a song/playlist into the queue \n 
-        !skip - skips the current song \n 
-        !stop - stops the music \n 
-        !queue - posts current music queue (first 30 tracks in queue) \n
-        !image <keyword> - random Google Image \n 
-        !roulette <create/join/start/list> - server kick roulette \n 
-        !anime - random anime \n 
-        !roll <value> - random number between 1 and your value \n
-        !peko - just don't. \n 
-        !hit <@someone> - hit someone with a giant halberd \n
+        let embed = new Discord.MessageEmbed().addField('Список доступных комманд :',`!play <ссылка наYT видео/плейлист> - помещает трек/плейлист в очередь \n 
+        !skip - пропускет текущий трек \n 
+        !stop - останавливает очередь \n 
+        !queue - показывает первые 30 треков в очереди \n
+        !image <ключевое слово> - случайная картинка \n 
+        !roulette <create/join/start/list> - рулетка на кик с сервера \n 
+        !anime - случайное аниме \n 
+        !roll <значение> - случайное число между 1 и заданным значением \n
+        !peko - одумайся. \n 
+        !hit <@кто-то> - ударяет огромной алебардой \n
+        !тюленя - вызывает тюленя \n
+        !addseal<тюлень в винительном падеже> - добавляет тюленя в список \n
+        !stats - статистика по призванным тюленям \n
         !ping <> - pong!`);
         message.author.send(embed);
     }

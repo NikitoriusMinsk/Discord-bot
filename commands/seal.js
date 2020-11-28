@@ -1,73 +1,103 @@
-const seals = require("../seals.json");
-const stats = require("../sealStats.json");
-const fs = require("fs");
-
 module.exports = {
     name: 'seal',
     description: 'drops a seal',
-    execute(message, args){
+    execute(message, args, client){
         console.log('!seal called');
         let rarity = Random(100);
-        let sealNum = Random(seals["count"]);
-
-        if(!stats[message.author.id]){
-            stats[message.author.id] = {
-                common : 0,
-                rare : 0,
-                epic : 0,
-                legendary : 0,
-                goldenLegendary : 0
-            }
-        }
-
-        if  ((rarity >= 1) && (rarity <= 70)){
-            //common
-            message.reply(` вызвал ${seals[sealNum]} обычного качества!`);
-            stats[message.author.id].common = stats[message.author.id].common + 1;
-            SaveStats();
-            return;
-        }
-
-        if  ((rarity >= 71) && (rarity <= 96)){
-            //rare
-            message.reply(` вызвал ${seals[sealNum]} редкого качества!`);
-            stats[message.author.id].rare = stats[message.author.id].rare + 1;
-            SaveStats();
-            return;
-        }
-
-        if  ((rarity >= 97) && (rarity <= 99)){
-            //epic
-            message.reply(` вызвал ${seals[sealNum]} эпического качества!`);
-            stats[message.author.id].epic = stats[message.author.id].epic + 1;
-            SaveStats();
-            return;
-        }
-
-        if  (rarity == 100){
-            //legendary
-            if(Random(100)==100){
-                message.reply(` вызвал ${seals[sealNum]} ЗОЛОТОГО ЛЕГЕНДАРНОГО качества!`);
-                stats[message.author.id].goldenLegendary = stats[message.author.id].goldenLegendary + 1;
-                SaveStats();
+        let sealName;
+        client.query('SELECT * FROM seals ORDER BY random() LIMIT 1',(err, res)=>{
+            if(err){
+                console.log(err,res);
+                message.channel.send('Произошла ошибка при получении тюленя, тыкайте Никиту');
                 return;
             }
-            message.reply(` вызвал ${seals[sealNum]} легендарного качества!`);
-            stats[message.author.id].legendary = stats[message.author.id].legendary + 1;
-            SaveStats();
-            return;
-        }
+            sealName = res.rows[0].name;
+
+            client.query(`SELECT EXISTS(SELECT 1 FROM stats WHERE id=${message.author.id});`, (err, res) => {
+                if(err){
+                    console.log(err,res);
+                    message.channel.send('Произошла ошибка при проверке существования пользователя, тыкайте Никиту');
+                    return;
+                }
+                if(res.rows[0].exists == false){
+                    client.query(`INSERT INTO stats(id,common,rare,epic,legendary,golden_legendary) values('${message.author.id}',0,0,0,0,0)`,(err,res)=>{
+                        if(err){
+                            console.log(err,res);
+                            message.channel.send('Произошла ошибка при добавлении нового пользователя, тыкайте Никиту');
+                            return;
+                        }
+                    });
+                }
+            });
+    
+    
+            if  ((rarity >= 1) && (rarity <= 70)){
+                //common
+                message.reply(` вызвал ${sealName} обычного качества!`);
+                client.query(`UPDATE stats SET common=common+1 WHERE id=${message.author.id}`, (err,res)=>{
+                    if(err){
+                        console.log(err,res);
+                        message.channel.send('Произошла ошибка при обновлении статистики, тыкайте Никиту');
+                        return;
+                    }
+                });
+                return;
+            }
+    
+            if  ((rarity >= 71) && (rarity <= 96)){
+                //rare
+                message.reply(` вызвал ${sealName} редкого качества!`);
+                client.query(`UPDATE stats SET rare=rare+1 WHERE id=${message.author.id}`, (err,res)=>{
+                    if(err){
+                        console.log(err,res);
+                        message.channel.send('Произошла ошибка при обновлении статистики, тыкайте Никиту');
+                        return;
+                    }
+                });
+                return;
+            }
+    
+            if  ((rarity >= 97) && (rarity <= 99)){
+                //epic
+                message.reply(` вызвал ${sealName} эпического качества!`);
+                stats[message.author.id].epic = stats[message.author.id].epic + 1;
+                client.query(`UPDATE stats SET epic=epic+1 WHERE id=${message.author.id}`, (err,res)=>{
+                    if(err){
+                        console.log(err,res);
+                        message.channel.send('Произошла ошибка при обновлении статистики, тыкайте Никиту');
+                        return;
+                    }
+                });
+                return;
+            }
+    
+            if  (rarity == 100){
+                //legendary
+                if(Random(100)==100){
+                    message.reply(` вызвал ${sealName} ЗОЛОТОГО ЛЕГЕНДАРНОГО качества!`);
+                    client.query(`UPDATE stats SET golden_legendary=golden_legendary+1 WHERE id=${message.author.id}`, (err,res)=>{
+                        if(err){
+                            console.log(err,res);
+                            message.channel.send('Произошла ошибка при обновлении статистики, тыкайте Никиту');
+                            return;
+                        }
+                    });
+                    return;
+                }
+                message.reply(` вызвал ${sealName} легендарного качества!`);
+                client.query(`UPDATE stats SET legendary=legendary+1 WHERE id=${message.author.id}`, (err,res)=>{
+                    if(err){
+                        console.log(err,res);
+                        message.channel.send('Произошла ошибка при обновлении статистики, тыкайте Никиту');
+                        return;
+                    }
+                });
+                return;
+            }
+        })        
     }
 }
 
 function Random(max){
     return Math.floor(Math.random() * Math.floor(max))+1;
-}
-
-function SaveStats(){
-    fs.writeFile("./sealStats.json", JSON.stringify(stats), (err) => {
-        if(err){
-            console.log(err);
-        }
-    })
 }

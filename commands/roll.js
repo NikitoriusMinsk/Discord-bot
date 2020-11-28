@@ -6,6 +6,6 @@ module.exports = {
         if(!args[1]){
             message.reply(' введи числовое значение.');
         }
-        message.reply(` твой ролл: ${Math.floor(Math.random() * args[1])}`);
+        message.reply(` твой ролл: ${Math.floor(Math.random() * args[1])+1}`);
     }
 }
