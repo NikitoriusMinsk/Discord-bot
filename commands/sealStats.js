@@ -10,7 +10,6 @@ module.exports = {
                 message.send("Произошла ошибка при получении статистики, тыкайте Никиту");
                 return;
             }
-            console.log(res);
             let embed = new Discord.MessageEmbed();
             embed.addField(`Тюлени ${message.author.username}`, `Обычные : ${res.rows[0].common}\n
             Редкие : ${res.rows[0].rare}\n
