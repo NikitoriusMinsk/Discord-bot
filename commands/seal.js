@@ -60,7 +60,6 @@ module.exports = {
             if  ((rarity >= 97) && (rarity <= 99)){
                 //epic
                 message.reply(` вызвал ${sealName} эпического качества!`);
-                stats[message.author.id].epic = stats[message.author.id].epic + 1;
                 client.query(`UPDATE stats SET epic=epic+1 WHERE id=${message.author.id}`, (err,res)=>{
                     if(err){
                         console.log(err,res);
