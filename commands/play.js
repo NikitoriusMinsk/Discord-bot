@@ -11,16 +11,16 @@ module.exports = {
 
             try {
                 message.channel.send(`Сейчас играет: ${server.queue[0]}`);  
-                server.dispatcher = connection.play(ytdl(server.queue[0], {filter:"audioonly"}));    
+                server.dispatcher = connection.play(ytdl(server.queue[0], {filter:"audioonly"}));  
                 let info = await ytdl.getInfo(server.queue[0]);
-                playingState.title = info.videoDetails.title;
+                playingState.title = info.videoDetails.title=undefined?'err':info.videoDetails.title;
                 playingState.state = true;
                 server.queue.shift();
                 
             } catch (error) {
+                console.log(error);
                 message.channel.send('Во время проигрывания произошла ошибка.');
                 server.queue.shift();
-                console.log(error);
                 if(server.queue.length != 0){
                     play(connection,message);
                 }
