@@ -124,16 +124,4 @@ member.guild.roles.fetch('747439488002687087')
             .then(role => member.roles.add(role));
 })
 
-if (process.env.BOT_TOKEN){
-    bot.login(process.env.BOT_TOKEN);
-}
-else
-{
-    fs.readFile('./token.txt','utf-8', function(err, data){
-        if (err)
-        {
-            return console.log(err);
-        }
-        bot.login(data);
-    })
-}
+bot.login(process.env.BOT_TOKEN);

@@ -1,5 +1,5 @@
 const ytdl = require('ytdl-core');
-const ytplaylist = require('youtube-playlist');
+
 
 module.exports = {
     name: 'play',
@@ -44,41 +44,6 @@ module.exports = {
                 }
             })
         }
-        
-        function playPlaylist(playlist,message){
-            ytplaylist(playlist, 'url').then(res=>{
-                let urls = res.data.playlist;
-
-                if(!message.member.voice.channel){
-                    message.reply(' нужно находится в голосовом канале!');
-                    return;
-                }
-                
-                if(!servers[message.guild.id]) servers[message.guild.id] = {
-                    queue:[]
-                }
-                    
-                var server = servers[message.guild.id];
-        
-                if(playingState.state){
-                    //add to queue if playing
-                    for (let i = 0; i < urls.length; i++) {
-                        const element = urls[i];
-                        server.queue.push(element);
-                    }
-                    return;
-                }
-                else{
-                    if(!message.member.voice.connection) message.member.voice.channel.join().then(function(connection){
-                        for (let i = 0; i < urls.length; i++) {
-                            const element = urls[i];
-                            server.queue.push(element);
-                        }
-                        play(connection, message);
-                    })
-                }
-            });
-        }
 
         if(!args[1]){
             message.reply(' укажи ссылку на Youtube-видео.');
@@ -118,14 +83,3 @@ module.exports = {
         }
     }
 }
-
-function isPlaylist(url){
-    var regExp = /^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/g;
-        var match = url.match(regExp);
-        if (match){
-            return true;
-        }
-        return false;
-}
-
-
