@@ -50,11 +50,6 @@ module.exports = {
             return;
         }
 
-        if (isPlaylist(args[1])){
-            playPlaylist(args[1],message);
-            return;
-        }
-
         if (!ytdl.validateURL(args[1])){
             message.reply(' укажи ссылку на Youtube-видео.');
             return;
