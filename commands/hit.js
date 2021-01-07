@@ -26,10 +26,8 @@ module.exports = {
 }
 
 function getUserFromMention(mention, client) {
-	let ans;
-
 	if (!mention) return;
-
+	//extract user ID
 	if (mention.startsWith('<@') && mention.endsWith('>')) {
 		mention = mention.slice(2, -1);
 

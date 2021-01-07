@@ -115,6 +115,10 @@ bot.on('message', message => {
         case 'stats':
             bot.commands.get('sealStats').execute(message, args, client);
         break;
+
+        case 'playlist':
+            bot.commands.get('playlist').execute(message,args,servers,playingState);
+        break;
     }
 });
 

@@ -5,7 +5,8 @@ module.exports = {
     description: 'list of commands',
     execute(message, args){
         console.log('!commands called');
-        let embed = new Discord.MessageEmbed().addField('Список доступных комманд :',`!play <ссылка наYT видео/плейлист> - помещает трек/плейлист в очередь \n 
+        let embed = new Discord.MessageEmbed().addField('Список доступных комманд :',`!play <ссылка наYT видео> - помещает трек в очередь \n 
+        !playlist <ссылка на YT плейлист> - помещает плейлист в очередь \n 
         !skip - пропускет текущий трек \n 
         !stop - останавливает очередь \n 
         !queue - показывает первые 30 треков в очереди \n
@@ -19,6 +20,6 @@ module.exports = {
         !addseal<тюлень в винительном падеже> - добавляет тюленя в список \n
         !stats - статистика по призванным тюленям \n
         !ping <> - pong!`);
-        message.author.send(embed);
+        message.channel.send(embed);
     }
 }

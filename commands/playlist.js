@@ -1,10 +1,11 @@
 const ytdl = require('ytdl-core');
+const ytpl = require('ytpl');
 
 module.exports = {
-    name: 'play',
-    description: 'adds a song to music queue',
-    async execute(message, args, servers, playingState){
-        console.log('!play called');
+    name: 'playlist',
+    description: 'adds a playlist to the queue',
+    execute(message, args, servers, playingState){
+        console.log('!playlist called')
         async function play(connection, message){
             var server = servers[message.guild.id];
 
@@ -45,12 +46,13 @@ module.exports = {
         }
         //check for args existance
         if(!args[1]){
-            message.reply(' укажи ссылку на Youtube-видео.');
+            message.reply(' укажи ссылку на Youtube-плейлист.');
             return;
         }
-        //validate video url
-        if (!ytdl.validateURL(args[1])){
-            message.reply(' укажи ссылку на Youtube-видео.');
+        //validate playlist url
+        var regex = new RegExp(/^.*(youtu.be\/|list=)([^#\&\?]*).*/);
+        if (!regex.exec(args[1])){//validate url
+            message.reply(' укажи ссылку на Youtube-плейлист.');
             return;
         }        
         //check if user is in a voice channel
@@ -58,22 +60,38 @@ module.exports = {
             message.reply(' нужно находится в голосовом канале!');
             return;
         }
-        //check if queue exists
+        //check fro queue existance
         if(!servers[message.guild.id]) servers[message.guild.id] = {
             queue:[]
         }
             
         var server = servers[message.guild.id];
-        //check if something is already playing
+        // if something is already playing
         if(playingState.state){
-            server.queue.push(args[1]);
+            //push all track to queue without playing
+            GetPlaylist(args[1]).then(items => {
+                items.forEach(element => {
+                    server.queue.push(element.shortUrl);
+                })
+            });
             return;
         }
         else{
             if(!message.member.voice.connection) message.member.voice.channel.join().then(function(connection){
-                server.queue.push(args[1]);
-                play(connection, message);
+                //push all track to queue with playing
+                GetPlaylist(args[1]).then(items => {
+                    items.forEach(element => {
+                        server.queue.push(element.shortUrl);
+                    })
+                    play(connection, message);
+                });
             })
         }
+
     }
+}
+
+async function GetPlaylist(url){
+    let playlist = await ytpl(url,{limit:Infinity});
+    return playlist.items;
 }
