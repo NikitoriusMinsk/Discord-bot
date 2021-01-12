@@ -4,6 +4,7 @@ module.exports = {
     name: 'sealStats',
     description: 'shows seal stats',
     execute(message, args, client){
+        console.log('!sealStats called');
         client.query(`SELECT * FROM stats WHERE id=${message.author.id}`, (err,res)=>{
             if(err){
                 console.log(err,res);

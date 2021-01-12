@@ -2,6 +2,7 @@ module.exports = {
     name: 'addSeal',
     description: 'add a seal to list',
     execute(message, args, client){
+        console.log('!sealAdd called');
         //check for args existance
         if (!args[1]){
             message.reply(" укажи тюленя!(в винительном падеже) пример: !addseal тюленя-парашутиста");
@@ -17,6 +18,7 @@ module.exports = {
         client.query(`INSERT INTO seals(name) values('${sealName}');`, (err, res) => {
             if(err){
                 console.log(err, res);
+                message.send("Произошла ошибка при добавлении, тыкайте Никиту");
                 return;
             }
         });
