@@ -5,12 +5,12 @@ module.exports = {
     description: 'adds a song to music queue',
     async execute(message, args, servers, playingState){
         console.log('!play called');
-        async function play(connection, message){
-            var server = servers[message.guild.id];
+        async function play(connection, localmessage){
+            var server = servers[localmessage.guild.id];
 
             try {
-                message.channel.send(`Сейчас играет: ${server.queue[0]}`);  
-                server.dispatcher = connection.play(ytdl(server.queue[0], {filter:"audioonly"}));
+                localmessage.channel.send(`Сейчас играет: ${server.queue[0]}`);  
+                server.dispatcher = connection.play(ytdl(server.queue[0], {type:'opus', filter:"audioonly"}));
                 let info = await ytdl.getInfo(server.queue[0]);
                 playingState.title = info.videoDetails.title=undefined?'err':info.videoDetails.title;
                 playingState.state = true;
@@ -18,10 +18,10 @@ module.exports = {
                 
             } catch (error) {
                 console.log(error);
-                message.channel.send('Во время проигрывания произошла ошибка.');
+                localmessage.channel.send('Во время проигрывания произошла ошибка.');
                 server.queue.shift();
                 if(server.queue.length != 0){
-                    play(connection,message);
+                    play(connection,localmessage);
                 }
                 else{
                     connection.disconnect();
@@ -32,13 +32,13 @@ module.exports = {
             
             server.dispatcher.on("finish", function(){
                 if(server.queue.length==0){
-                    message.channel.send('Треки кончились, выхожу.')
+                    localmessage.channel.send('Треки кончились, выхожу.')
                     connection.disconnect();
                     playingState.state = false;
                     return;
                 }
                 else{                                                         
-                    play(connection,message);
+                    play(connection,localmessage);
                     return;
                 }
             })
@@ -70,10 +70,11 @@ module.exports = {
             return;
         }
         else{
-            if(!message.member.voice.connection) message.member.voice.channel.join().then(function(connection){
-                server.queue.push(args[1]);
-                play(connection, message);
-            })
+            if(!message.member.voice.connection) message.member.voice.channel.join()
+                .then(function(connection){
+                    server.queue.push(args[1]);
+                    play(connection, message);
+                })
         }
     }
 }

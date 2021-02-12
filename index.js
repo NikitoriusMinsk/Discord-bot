@@ -26,11 +26,10 @@ for(const file of commandFiles){
 }
 
 var rouletteList = {starter:'', users:[]};
-var servers = {};
+var servers = [];
 var usedCommandRecently = new Set();
 var playingState = {state : false,
-                    title: ' ',
-                    loop :false};
+                    title: ' '};
 
 bot.on('ready', () => {
     console.log('Bot is online!');
@@ -118,6 +117,14 @@ bot.on('message', message => {
 
         case 'playlist':
             bot.commands.get('playlist').execute(message,args,servers,playingState);
+        break;
+
+        case 'pause': 
+            bot.commands.get('pause').execute(message,args,servers,playingState);
+        break;
+
+        case 'resume': 
+            bot.commands.get('resume').execute(message,args,servers,playingState);
         break;
     }
 });
