@@ -131,8 +131,7 @@ bot.on('message', message => {
 
 bot.on('guildMemberAdd',(member)=>{
 //Barbarian - 747439488002687087
-member.guild.roles.fetch('747439488002687087')
-            .then(role => member.roles.add(role));
+    member.roles.add('747439488002687087');
 })
 
 bot.login(process.env.BOT_TOKEN);

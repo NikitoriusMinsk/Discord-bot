@@ -11,7 +11,7 @@ module.exports = {
                 for (let i = server.queue.length-1; i>=0; i--) {                    
                     server.queue.splice(i,1);
                 }
-                server.dispatcher.end();
+                server.dispatcher.destroy();
                 
                 if(message.guild.voice.connection) message.guild.voice.connection.disconnect();
             }
