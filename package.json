@@ -11,15 +11,15 @@
   "license": "ISC",
   "dependencies": {
     "cheerio": "^1.0.0-rc.10",
-    "discord.js": "^12.5.1",
-    "dotenv": "^8.2.0",
-    "ffmpeg-static": "^4.2.7",
+    "discord.js": "^12.5.3",
+    "dotenv": "^8.6.0",
+    "ffmpeg-static": "^4.4.0",
     "node-fetch": "^2.6.1",
-    "npm-check-updates": "^10.2.2",
+    "npm-check-updates": "^10.3.1",
     "opusscript": "0.0.7",
-    "pg": "^8.5.1",
+    "pg": "^8.6.0",
     "request": "^2.88.2",
-    "ytdl-core": "^4.8.2",
-    "ytpl": "^2.0.4"
+    "ytdl-core": "^4.8.3",
+    "ytpl": "^2.2.1"
   }
 }
